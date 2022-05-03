@@ -5,7 +5,7 @@ body {
     overflow-x: hidden;
     color: white;
     background-color: #2C353C;
-    background-image: linear-gradient(orange, white, green);
+    background-image: linear-gradient(orange, green);
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: cover;
