@@ -1,92 +1,141 @@
-function check()
-{
-    let em=document.getElementById("exampleInputEmail1");
-    let pass=document.getElementById("exampleInputPassword1");
-    let reg1=/^([A-Za-z0-9\.-]+)@([A-Za-z0-9\-]+).([a-z]{2,3})(.[a-z]{2,3})?$/;
-    let reg2=/^(?=.*[0-9])(?=.*[A-Za-z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,30}$/;
-    if(reg1.test(em.value) && (reg2.test(pass.value)))
+var loginEmail = document.getElementById("loginEmail");
+var phoneNumber = document.getElementById("phoneNumber");
+var inputPass = document.getElementById("inputPass");
+var inputConfPass = document.getElementById("inputConfPass");
+var gridCheck = document.getElementById("gridCheck");
+var emailRegex = /^([A-Za-z0-9\.-]+)@([A-Za-z0-9\-]+)\.([a-z]{2,3})(\.[a-z]{2,3})?$/ ;
+var numberRegex = /^([0-9]{3})([- \.]?)([0-9]{3})([- \.]?)([0-9]{4})$/ ;
+var passRegex = /((?=.*[A-Z]+)(?=.*[a-z]+)(?=.*[0-9]+))/ ;
+var emailLoginError = document.getElementById("emailLoginError"); 
+var emailSignupError = document.getElementById("emailSignupError"); 
+var numberError = document.getElementById("numberError");
+var passError = document.getElementById("passError");
+var passStrLabel = document.getElementById("passStrLabel");
+
+function validLogin() 
     {
+        if (emailRegex.test(loginEmail.value))
+        {
+            emailLoginError.innerHTML="Valid Format";
+            loginEmail.style.border = "";
+            return true;
+        }
+        else
+        {
+            emailLoginError.innerHTML="Invalid Format! Please re-enter email address";
+            loginEmail.style.border = "red 1px solid";
+            return false;
+        }
+    }
+function validSignupEmail() 
+    {
+        if (emailRegex.test(signupEmail.value))
+        {
+            emailSignupError.innerHTML="Valid Format";
+            signupEmail.style.border = "";
+            return true;
+        }
+        else
+        {
+            emailSignupError.innerHTML="Invalid Format! Please re-enter email address";
+            signupEmail.style.border = "red 1px solid";
+            return false;
+        }
+    }
+
+function validNumber()
+{
+        if (numberRegex.test(phoneNumber.value))
+        {
+            numberError.innerText = "Valid Number";
+            phoneNumber.style.border = "";
+            return true;
+        }
+        else
+        {
+            numberError.innerText = "Invalid Format! Please re-enter phone number";
+            phoneNumber.style.border = "red 1px solid"
+            return false;
+        }
+}
+
+function validPass()
+{
+    if (passRegex.test(inputPass.value) && inputPass.value.length>=8)
+    {
+        passError.innerHTML = "Valid Format";
+        inputPass.style.border = "";
         return true;
     }
     else
     {
-        em.style.border="2px solid red";
-        pass.style.border="2px solid red";
-        em.setAttribute("placeholder","Invalid Email");
-        alert("Invalid Email or password");
+        passError.innerHTML = "Password must contain a minimum of 8 characters with at least one uppercase, lowercase character and number";
+        inputPass.style.border = "red 1px solid";
         return false;
     }
+}
 
-}
-function valid()
+function validConfPass()
 {
-    let em = document.getElementById("inputEmail4");
-    let pass=document.getElementById("inputPassword4");
-    let passcon=document.getElementById("inputPassword5");
-    let ph=document.getElementById("phone");
-    let regem=/^([A-Za-z0-9\.-]+)@([A-Za-z0-9\-]+).([a-z]{2,3})(.[a-z]{2,3})?$/;
-    let regpass=/^(?=.*[0-9])(?=.*[A-Za-z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,30}$/;
-    let regphone=/^([0-9]{3})([-.' ']{1})([0-9]{3})([-.' ']{1})([0-9]{4})$/;
-    if (regem.test(em.value))
+    if (inputConfPass.value == inputPass.value)
     {
-        if(regphone.test(ph.value))
-        {
-            if(regpass.test(pass.value))
-            {
-                if(pass.value==passcon.value)
-                {
-                    return true;
-                }
-                else
-                {
-                    passcon.style.border="2px solid red";
-                    alert("Passwords don't match!");
-                    return false;
-                }
-            }
-            else
-            {
-                pass.style.border="2px solid red";
-                pass.setAttribute("placeholder","Invalid format");
-                alert("Password must contain atleast 1 uppercase alphabet, 1 lowercase alphabet and 1 number.")
-                return false;
-            }
-        }
-        else
-        {
-            ph.style.border="2px solid red";
-            ph.setAttribute("placeholder","Invalid format");
-            return false;
-        }
+        confError.innerHTML = "Passwords match";
+        inputConfPass.style.border = "";
+        return true;
     }
     else
     {
-        em.style.border="2px solid red";
-        alert("Invalid email");
-        em.setAttribute("placeholder","Invalid format");
+        confError.innerHTML = "Passwords don't match";
+        inputConfPass.style.border = "red 1px solid";
         return false;
     }
 }
-function strength()
+
+function checkTerms()
 {
-    let pass=document.getElementById("inputPassword4");
-    let str=document.getElementById("strength");
-    if(pass.value.length>=8 && pass.value.length<14)
+    if (gridCheck.checked == false)
     {
-        str.innerText="Medium";
-        str.style.color="orange";
-        pass.style.border="2px solid orange";
+        gridCheck.style.border = "red 1px solid";
     }
-    else if(pass.value.length>=14)
+    return gridCheck.checked ? true : false
+}
+
+function passStrength()
+{
+    if (inputPass.value.length<=9)
     {
-        str.innerText="Strong";
-        str.style.color="green";
-        pass.style.border="2px solid green";
+        inputPass.style.border = "red 1px solid";
+        passStrLabel.style.color = "red";
+        passStrLabel.innerHTML = "Weak Password!";
     }
+    else if (inputPass.value.length>9 && inputPass.value.length<=12)
+    {
+        inputPass.style.border = "yellow 1px solid";
+        passStrLabel.style.color = "yellow";
+        passStrLabel.innerHTML = "Medium Password";
+    }
+    else if (inputPass.value.length>12)
+    {
+        inputPass.style.border = "green 1px solid";
+        passStrLabel.style.color = "green";
+        passStrLabel.innerHTML = "Strong Password!";
+    }
+    else if(inputPass.value.length == 0)
+    {
+        inputPass.style.border = "";
+        passStrLabel.innerHTML = "";
+    }
+}
+
+function validate()
+{
+    var a = validSignupEmail();
+    var b = validNumber();
+    var c = validPass();
+    var d = validConfPass();
+    var e = checkTerms();
+    if (a && b && c && d && e)
+    return true
     else
-    {
-        str.innerText="Weak";
-        str.style.color="red";
-        pass.style.border="2px solid red";
-    }
+    return false
 }
